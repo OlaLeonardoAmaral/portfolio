@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amaral - Software Developer</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        /*
+        |--------------------------------------------------------------------------
+        | CSS - Modern & Minimalist Portfolio
+        | Autor: Seu Nome (atuando como Senior Frontend Developer)
+        | Filosofia: Clareza, Espaçamento e Animações Sutis.
+        |--------------------------------------------------------------------------
+        */
+
+        /* 1. Variáveis Globais e Reset */
+        :root {
+            --background: #0A0A0A;
+            --foreground: #FAFAFA;
+            --border: #262626;
+            --accent: #3a3a3a;
+
+            --font-main: 'Inter', sans-serif;
+        }
+        
+        /* --- TEMA CLARO --- */
+        [data-theme="light"] {
+            --background: #FAFAFA;
+            --foreground: #0A0A0A;
+            --border: #E5E5E5;
+            --accent: #dcdcdc;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--foreground);
+            font-family: var(--font-main);
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease; /* Transição suave de tema */
+        }
+
+        /* 2. Layout Principal e Contêiner */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+            width: 100%;
+        }
+
+        /* 3. Tipografia */
+        h1, h2, h3 {
+            color: var(--foreground);
+            transition: color 0.3s ease;
+        }
+
+        h1 {
+            font-size: clamp(3rem, 10vw, 6rem);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            letter-spacing: -2px;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            font-weight: 500;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 0.75rem;
+        }
+        
+        p {
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.6;
+            color: var(--foreground);
+            opacity: 0.9;
+            transition: color 0.3s ease;
+        }
+        
+        a {
+            color: var(--foreground);
+            text-decoration: none;
+            position: relative;
+            transition: opacity 0.3s ease, color 0.3s ease;
+        }
+
+        a::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 1px;
+            background-color: var(--foreground);
+            bottom: -2px;
+            left: 0;
+            transform: scaleX(0);
+            transform-origin: bottom right;
+            transition: transform 0.3s ease-out, background-color 0.3s ease;
+        }
+        
+        a:hover {
+            opacity: 0.8;
+        }
+
+        a:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+
+        /* --- MELHORIAS DE TIPOGRAFIA (A PARTIR DA SEÇÃO 'SOBRE') --- */
+        .section h2 {
+            font-size: 2rem; /* Aumentado de 1.8rem */
+        }
+        
+        .section h3 {
+            font-size: 1.25rem; /* Aumentado de 1.2rem */
+        }
+
+        .section p {
+            font-size: 1.1rem; /* Aumentado de 1.0rem */
+            line-height: 1.7; /* Aumentado de 1.6 para melhor espaçamento */
+        }
+
+        #contact .contact-links {
+            font-size: 1.2rem; /* Aumentado de 1.1rem para consistência */
+        }
+
+        .footer p {
+             font-size: 0.95rem; /* Aumentado de 0.9rem */
+        }
+
+        /* Sombra de texto sutil para tema claro */
+        [data-theme="light"] .section h2,
+        [data-theme="light"] .section h3,
+        [data-theme="light"] .section p,
+        [data-theme="light"] .contact-links a,
+        [data-theme="light"] .footer {
+            text-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
+        }
+        /* --- FIM DAS MELHORIAS DE TIPOGRAFIA --- */
+
+        /* 4. Estrutura das Seções */
+        .section {
+            padding: 120px 0;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            position: relative; /* Garante que o z-index funcione corretamente */
+        }
+        
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 5. Estilos Específicos das Seções */
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            text-align: left;
+            position: relative; /* Necessário para posicionar os controles */
+        }
+
+        .hero h1 .char {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(20px) scale(0.9);
+            animation: fadeInChar 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+        
+        @keyframes fadeInChar {
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .hero .subtitle {
+            font-size: 1.1rem;
+            opacity: 0;
+            transition: opacity 1s ease 0.8s;
+        }
+        
+        .hero .subtitle.visible {
+            opacity: 0.8;
+        }
+
+        /* --- INÍCIO: CONTROLES DE TEMA E IDIOMA --- */
+        .controls {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .control-button {
+            background: none;
+            border: none;
+            color: var(--foreground);
+            cursor: pointer;
+            opacity: 0.6;
+            transition: opacity 0.3s ease;
+            padding: 0.5rem;
+        }
+        
+        .control-button:hover {
+            opacity: 1;
+        }
+
+        .control-button svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+        
+        #theme-toggle .moon-icon,
+        [data-theme="light"] #theme-toggle .sun-icon {
+            display: none;
+        }
+
+        [data-theme="light"] #theme-toggle .moon-icon {
+            display: block;
+        }
+
+        /* --- FIM: CONTROLES DE TEMA E IDIOMA --- */
+
+        /* Sobre */
+        #about p + p {
+            margin-top: 1.5rem;
+        }
+        
+        /* --- INÍCIO DA CORREÇÃO --- */
+        #philosophy {
+            /* Aumentamos a altura para garantir espaço de scroll suficiente para toda a animação. 
+               Isso cria o "palco" para a animação do pino. */
+            height: 300vh; 
+            /* A seção gatilho DEVE ter um fundo sólido para esconder o conteúdo que rola por trás. */
+            background-color: var(--background);
+            transition: background-color 0.3s ease;
+            /* Garante que esta seção fique sobre a seção "Projetos" durante o pin. */
+            z-index: 1;
+            position: relative; 
+            /* Removemos o padding para que o container fixo ocupe toda a altura da viewport. */
+            padding: 0;
+            /* Desativamos a animação genérica da seção para não conflitar com o GSAP. */
+            opacity: 1;
+            transform: none;
+        }
+        /* --- FIM DA CORREÇÃO --- */
+
+        .philosophy-sticky-container {
+            height: 100vh; /* O container que será fixado ocupa toda a tela. */
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            flex-direction: column;
+            overflow: hidden; 
+        }
+        
+        .philosophy-content-wrapper {
+            position: relative;
+            width: 100%;
+            min-height: 250px;
+        }
+
+        #philosophy h2 {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .philosophy-item {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            /* A visibilidade e transformação são controladas pelo GSAP. */
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .philosophy-item:first-child {
+            /* O primeiro item começa visível por padrão */
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Projetos */
+        .project-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .project-item {
+            border: 1px solid var(--border);
+            padding: 2rem;
+            border-radius: 8px;
+            transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .project-item:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .project-item p {
+            margin-bottom: 1rem;
+            opacity: 0.8;
+        }
+        
+        .tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            background-color: var(--border);
+            color: var(--foreground);
+            opacity: 0.8;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Contato */
+        #contact .contact-text {
+            margin-bottom: 2rem;
+        }
+
+        .contact-links {
+            display: flex;
+            gap: 2rem;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+        
+        /* 6. Rodapé */
+        .footer {
+            text-align: center;
+            padding: 2rem 0;
+            font-size: 0.9rem;
+            color: var(--foreground);
+            opacity: 0.5;
+            border-top: 1px solid var(--border);
+            margin-top: 100px;
+            transition: border-color 0.3s ease, color 0.3s ease;
+        }
+
+    </style>
+</head>
+<body data-theme="dark">
+
+    <main class="container">
+        
+        <section class="hero" id="home">
+            <div class="controls">
+                <button id="theme-toggle" class="control-button" title="Toggle theme">
+                    <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.106a.75.75 0 010 1.06l-1.591 1.592a.75.75 0 01-1.06-1.061l1.591-1.591a.75.75 0 011.06 0zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 01-1.06 0l-1.591-1.591a.75.75 0 111.06-1.061l1.591 1.591a.75.75 0 010 1.06zM12 21.75a.75.75 0 01-.75-.75v-2.25a.75.75 0 011.5 0V21a.75.75 0 01-.75.75zM5.106 17.834a.75.75 0 010-1.06l1.591-1.591a.75.75 0 011.061 1.06l-1.591 1.592a.75.75 0 01-1.06 0zM3 12a.75.75 0 01.75-.75h2.25a.75.75 0 010 1.5H3.75A.75.75 0 013 12zM6.106 5.106a.75.75 0 011.06 0l1.591 1.591a.75.75 0 11-1.06 1.061L6.106 6.166a.75.75 0 010-1.06z"/></svg>
+                    <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-6.248z"/></svg>
+                </button>
+                <button id="lang-toggle" class="control-button" title="Alterar idioma / Change language">
+                    EN
+                </button>
+            </div>
+            <h1 class="hero-name">Amaral</h1>
+            <p class="subtitle" data-key="heroSubtitle">Software Developer focused on the intersection of code, design, and systems.</p>
+        </section>
+
+        <section class="section" id="about">
+            <h2 data-key="aboutTitle">About</h2>
+            <p data-key="aboutP1">
+                I am a developer and solutions architect with a passion for creating cohesive systems and intuitive user experiences. My approach is centered on clarity and efficiency, transforming complexity into simple and elegant solutions.
+            </p>
+            <p data-key="aboutP2">
+                I believe that good design is invisible and that the best technology is one that empowers the user without getting in the way. My job is to build bridges between ideas and execution, with an obsessive focus on clean code, scalable patterns, and well-defined processes.
+            </p>
+        </section>
+        
+        <section class="section" id="philosophy">
+            <div class="philosophy-sticky-container">
+                <div class="container">
+                    <h2 id="philosophy-title" data-key="philosophyTitle">Philosophy</h2>
+                    <div class="philosophy-content-wrapper">
+                        <div class="philosophy-item">
+                            <h3 data-key="philosophy1Title">Systematic Design</h3>
+                            <p data-key="philosophy1Text">Everything starts with a system. I create and maintain Design Systems that ensure consistency, accelerate development, and serve as a single source of truth for teams.</p>
+                        </div>
+                        <div class="philosophy-item">
+                            <h3 data-key="philosophy2Title">Purposeful Engineering</h3>
+                            <p data-key="philosophy2Text">I write code that not only works but is sustainable. I prioritize clean architecture, continuous refactoring, and creating robust solutions that stand the test of time.</p>
+                        </div>
+                        <div class="philosophy-item">
+                            <h3 data-key="philosophy3Title">Radical Clarity</h3>
+                            <p data-key="philosophy3Text">Whether in the UI, documentation, or communication, I seek clarity above all else. I believe simplicity is the pinnacle of sophistication and the key to successful products.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="projects">
+            <h2 data-key="projectsTitle">Projects</h2>
+            <ul class="project-list">
+                <li class="project-item">
+                    <h3>PromptVault</h3>
+                    <p data-key="project1Desc">A structured system for creating, storing, and reusing AI prompts, optimizing interaction with language models and ensuring consistent results.</p>
+                    <div class="tags">
+                        <span class="tag">AI</span>
+                        <span class="tag" data-key="tagSystems">Systems</span>
+                        <span class="tag" data-key="tagProductivity">Productivity</span>
+                    </div>
+                </li>
+                <li class="project-item">
+                    <h3>RepoGo</h3>
+                    <p data-key="project2Desc">A minimalist web application for searching and organizing GitHub repositories, focused on a fast and distraction-free user experience.</p>
+                    <div class="tags">
+                        <span class="tag">React</span>
+                        <span class="tag">UI/UX</span>
+                        <span class="tag" data-key="tagWebDev">Web Development</span>
+                    </div>
+                </li>
+                <li class="project-item">
+                    <h3>Pattern-Global</h3>
+                    <p data-key="project3Desc">A framework-agnostic Design System, focused on modern and minimalist patterns, documenting style guidelines, components, and design philosophy.</p>
+                    <div class="tags">
+                        <span class="tag">Design System</span>
+                        <span class="tag" data-key="tagArchitecture">Architecture</span>
+                        <span class="tag">UI Design</span>
+                    </div>
+                </li>
+            </ul>
+        </section>
+
+        <section class="section" id="contact">
+            <h2 data-key="contactTitle">Contact</h2>
+            <p class="contact-text" data-key="contactText">
+                Let's create something remarkable together. I am available for collaborations, new projects, and conversations about technology and design.
+            </p>
+            <div class="contact-links">
+                <a href="https://github.com/OlaLeonardoAmaral" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a href="https://www.linkedin.com/in/leonardoamaraldev/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="leonardo3442@hotmail.com" data-key="contactEmail">Email</a>
+            </div>
+        </section>
+        
+        <footer class="footer">
+            <p data-key="footerText">&copy; 2025 Amaral. Design and code with a focus on clarity.</p>
+        </footer>
+
+    </main>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- INÍCIO: DICIONÁRIO DE TRADUÇÕES ---
+            const translations = {
+                en: {
+                    heroSubtitle: "Software Developer focused on the intersection of code, design, and systems.",
+                    aboutTitle: "About",
+                    aboutP1: "I am a developer and solutions architect with a passion for creating cohesive systems and intuitive user experiences. My approach is centered on clarity and efficiency, transforming complexity into simple and elegant solutions.",
+                    aboutP2: "I believe that good design is invisible and that the best technology is one that empowers the user without getting in the way. My job is to build bridges between ideas and execution, with an obsessive focus on clean code, scalable patterns, and well-defined processes.",
+                    philosophyTitle: "Philosophy",
+                    philosophy1Title: "Systematic Design",
+                    philosophy1Text: "Everything starts with a system. I create and maintain Design Systems that ensure consistency, accelerate development, and serve as a single source of truth for teams.",
+                    philosophy2Title: "Purposeful Engineering",
+                    philosophy2Text: "I write code that not only works but is sustainable. I prioritize clean architecture, continuous refactoring, and creating robust solutions that stand the test of time.",
+                    philosophy3Title: "Radical Clarity",
+                    philosophy3Text: "Whether in the UI, documentation, or communication, I seek clarity above all else. I believe simplicity is the pinnacle of sophistication and the key to successful products.",
+                    projectsTitle: "Projects",
+                    project1Desc: "A structured system for creating, storing, and reusing AI prompts, optimizing interaction with language models and ensuring consistent results.",
+                    tagSystems: "Systems",
+                    tagProductivity: "Productivity",
+                    project2Desc: "A minimalist web application for searching and organizing GitHub repositories, focused on a fast and distraction-free user experience.",
+                    tagWebDev: "Web Development",
+                    project3Desc: "A framework-agnostic Design System, focused on modern and minimalist patterns, documenting style guidelines, components, and design philosophy.",
+                    tagArchitecture: "Architecture",
+                    contactTitle: "Contact",
+                    contactText: "Let's create something remarkable together. I am available for collaborations, new projects, and conversations about technology and design.",
+                    contactEmail: "Email",
+                    footerText: "&copy; 2025 Amaral. Design and code with a focus on clarity."
+                },
+                pt: {
+                    heroSubtitle: "Desenvolvedor de Software focado na intersecção entre código, design e sistemas.",
+                    aboutTitle: "Sobre",
+                    aboutP1: "Sou um desenvolvedor e arquiteto de soluções com uma paixão por criar sistemas coesos e experiências de usuário intuitivas. Minha abordagem é centrada na clareza e na eficiência, transformando complexidade em soluções simples e elegantes.",
+                    aboutP2: "Acredito que o bom design é invisível e que a melhor tecnologia é aquela que capacita o usuário sem se colocar no caminho. Meu trabalho é construir pontes entre ideias e execução, com um foco obsessivo em código limpo, padrões escaláveis e processos bem definidos.",
+                    philosophyTitle: "Filosofia",
+                    philosophy1Title: "Design Sistemático",
+                    philosophy1Text: "Tudo começa com um sistema. Crio e mantenho Design Systems que garantem consistência, aceleram o desenvolvimento e servem como uma fonte única de verdade para equipes.",
+                    philosophy2Title: "Engenharia com Propósito",
+                    philosophy2Text: "Escrevo código que não apenas funciona, mas que é sustentável. Priorizo a arquitetura limpa, a refatoração contínua e a criação de soluções robustas que resistem ao teste do tempo.",
+                    philosophy3Title: "Clareza Radical",
+                    philosophy3Text: "Seja na UI, na documentação ou na comunicação, busco a clareza acima de tudo. Acredito que a simplicidade é o auge da sofisticação e a chave para produtos de sucesso.",
+                    projectsTitle: "Projetos",
+                    project1Desc: "Um sistema estruturado para a criação, armazenamento e reutilização de prompts de IA, otimizando a interação com modelos de linguagem e garantindo resultados consistentes.",
+                    tagSystems: "Sistemas",
+                    tagProductivity: "Produtividade",
+                    project2Desc: "Uma aplicação web minimalista para buscar e organizar repositórios do GitHub, focada em uma experiência de usuário rápida e livre de distrações.",
+                    tagWebDev: "Desenvolvimento Web",
+                    project3Desc: "Um Design System agnóstico de framework, focado em padrões modernos e minimalistas, documentando diretrizes de estilo, componentes e filosofia de design.",
+                    tagArchitecture: "Arquitetura",
+                    contactTitle: "Contato",
+                    contactText: "Vamos criar algo notável juntos. Estou disponível para colaborações, novos projetos e conversas sobre tecnologia e design.",
+                    contactEmail: "Email",
+                    footerText: "&copy; 2025 Amaral. Design e código com foco em clareza."
+                }
+            };
+            // --- FIM: DICIONÁRIO DE TRADUÇÕES ---
+
+
+            // --- INÍCIO: LÓGICA DE TEMA E IDIOMA ---
+            const themeToggle = document.getElementById('theme-toggle');
+            const langToggle = document.getElementById('lang-toggle');
+            const body = document.body;
+            const html = document.documentElement;
+
+            const setLanguage = (lang) => {
+                html.setAttribute('lang', lang);
+                langToggle.textContent = lang === 'en' ? 'PT' : 'EN';
+                document.querySelectorAll('[data-key]').forEach(element => {
+                    const key = element.getAttribute('data-key');
+                    if (translations[lang][key]) {
+                        if (key === 'footerText') {
+                            element.innerHTML = translations[lang][key];
+                        } else {
+                            element.textContent = translations[lang][key];
+                        }
+                    }
+                });
+                localStorage.setItem('language', lang);
+            };
+
+            const setTheme = (theme) => {
+                body.setAttribute('data-theme', theme);
+                localStorage.setItem('theme', theme);
+            };
+
+            themeToggle.addEventListener('click', () => {
+                const newTheme = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+                setTheme(newTheme);
+            });
+
+            langToggle.addEventListener('click', () => {
+                const newLang = html.getAttribute('lang') === 'en' ? 'pt' : 'en';
+                setLanguage(newLang);
+            });
+
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            const savedLang = localStorage.getItem('language') || 'en';
+            
+            setTheme(savedTheme);
+            setLanguage(savedLang);
+            // --- FIM: LÓGICA DE TEMA E IDIOMA ---
+
+
+            // 1. Animação de Carregamento do Nome (Hero)
+            const heroName = document.querySelector('.hero-name');
+            if (heroName) {
+                const text = heroName.textContent;
+                heroName.innerHTML = '';
+                
+                text.split('').forEach((char, index) => {
+                    const span = document.createElement('span');
+                    span.className = 'char';
+                    span.textContent = char === ' ' ? '\u00A0' : char;
+                    span.style.animationDelay = `${index * 0.05}s`;
+                    heroName.appendChild(span);
+                });
+
+                const subtitle = document.querySelector('.hero .subtitle');
+                if(subtitle) {
+                    setTimeout(() => {
+                        subtitle.classList.add('visible');
+                    }, text.length * 50);
+                }
+            }
+
+
+            // 2. Animação de Fade-in e Slide-up nas seções
+            const sections = document.querySelectorAll('.section');
+            const sectionObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        // Não desobservamos a seção de filosofia para que o trigger do GSAP funcione sempre
+                        if(entry.target.id !== 'philosophy') {
+                            observer.unobserve(entry.target);
+                        }
+                    }
+                });
+            }, { root: null, rootMargin: '0px', threshold: 0.1 });
+
+            sections.forEach(section => {
+                sectionObserver.observe(section);
+            });
+
+
+            // 3. LÓGICA DA SEÇÃO FILOSOFIA COM GSAP (IMPLEMENTAÇÃO CORRIGIDA)
+            const setupPhilosophyAnimation = () => {
+                gsap.registerPlugin(ScrollTrigger);
+
+                const philosophyItems = gsap.utils.toArray('.philosophy-item');
+                const philosophySection = document.getElementById('philosophy');
+
+                // A timeline controla a sequência de aparição dos textos.
+                let tl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: philosophySection,
+                        pin: '.philosophy-sticky-container', // Fixa o container de 100vh.
+                        scrub: 1, // Suaviza a animação com a rolagem.
+                        start: "top top", 
+                        // --- INÍCIO DA CORREÇÃO ---
+                        // O pin termina quando a parte de baixo da seção #philosophy (que tem 300vh)
+                        // atinge a parte de baixo da janela de visualização. Isso garante que todo
+                        // o espaço de rolagem seja usado antes de liberar o pino e mostrar a próxima seção.
+                        end: "bottom bottom", 
+                        // --- FIM DA CORREÇÃO ---
+                        anticipatePin: 1
+                    }
+                });
+
+                // Animação para a transição do primeiro para o segundo item.
+                tl.to(philosophyItems[0], { 
+                    autoAlpha: 0, // Anima opacidade e visibility.
+                    y: -40,       // Sobe sutilmente ao desaparecer.
+                    duration: 0.5 
+                })
+                .fromTo(philosophyItems[1], {
+                    autoAlpha: 0, 
+                    y: 40         
+                }, {
+                    autoAlpha: 1, 
+                    y: 0,         
+                    duration: 0.5
+                }, ">-0.2"); // Começa um pouco antes do item anterior terminar de sumir.
+
+                // Animação para a transição do segundo para o terceiro item.
+                // O "+=1" cria uma "pausa" na timeline, exigindo mais rolagem do usuário
+                // para iniciar a próxima transição, dando tempo para leitura.
+                tl.to(philosophyItems[1], {
+                    autoAlpha: 0,
+                    y: -40,
+                    duration: 0.5
+                }, "+=1") 
+                .fromTo(philosophyItems[2], {
+                    autoAlpha: 0,
+                    y: 40
+                }, {
+                    autoAlpha: 1,
+                    y: 0,
+                    duration: 0.5
+                }, ">-0.2");
+            };
+            
+            setupPhilosophyAnimation();
+
+        });
+    </script>
+
+</body>
+</html>
